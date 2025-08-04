@@ -26,13 +26,16 @@ void build (int l,int r,int node) {
 }
 
 void update(int l,int r,int node,int id,int val) {
+    if (id<l || r<id) {
+        return;
+    }
     if (l==r) {
         tree[node]=val;  
         return; 
     }
     int mid=(l+r)/2; 
-    if (id<=mid) update(l,mid,2*node+1,id,val); 
-    else update(mid+1,r,2*node+2,id,val); 
+    update(l,mid,2*node+1,id,val); 
+    update(mid+1,r,2*node+2,id,val); 
     tree[node]=op(tree[2*node+1],tree[2*node+2]); 
 }
 
