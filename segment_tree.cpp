@@ -10,12 +10,8 @@ int n,q;
 vector<int> a(N); 
 vector<int> tree(4*N);
 
-int mergeop(int x,int y) {
+int op(int x,int y) {
     return max(x,y); 
-}
-
-void merge(int node) {
-    tree[node]=mergeop(tree[2*node+1],tree[2*node+2]); 
 }
 
 void build (int l,int r,int node) {
@@ -26,7 +22,7 @@ void build (int l,int r,int node) {
     int mid=(l+r)/2; 
     build(l,mid,2*node+1);  
     build(mid+1,r,2*node+2);  
-    merge(node);
+    tree[node]=op(tree[2*node+1],tree[2*node+2]);
 }
 
 void update(int l,int r,int node,int id,int val) {
@@ -37,7 +33,7 @@ void update(int l,int r,int node,int id,int val) {
     int mid=(l+r)/2; 
     if (id<=mid) update(l,mid,2*node+1,id,val); 
     else update(mid+1,r,2*node+2,id,val); 
-    merge(node); 
+    tree[node]=op(tree[2*node+1],tree[2*node+2]); 
 }
 
 int query(int l,int r,int node,int i,int j) {
@@ -49,7 +45,7 @@ int query(int l,int r,int node,int i,int j) {
     int leftval=NEUTRAL,rightval=NEUTRAL; 
     if (i<=mid) leftval=query(l,mid,2*node+1,i,j); 
     if (j>mid) rightval=query(mid+1,r,2*node+2,i,j);
-    ans=mergeop(leftval,rightval);
+    ans=op(leftval,rightval);
     return ans; 
 }
 
